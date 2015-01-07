@@ -3,8 +3,15 @@
 
 #include <iostream>
 #include <exception>
+#include <stack>
 
 typedef int Data;
+
+struct TreeElements
+{
+    Data value;
+    int order;
+};
 
 class BSTException : public std::exception
 {
@@ -32,7 +39,7 @@ public:
     bool isEmpty() const;
 
 protected:
-    virtual void inorder(std::ostream & out);
+    void getElements(TreeElements *& array, int &size);
 
 private:
     class Implementation;

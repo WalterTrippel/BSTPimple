@@ -17,6 +17,9 @@ public:
 
     friend std::ostream & operator << (std::ostream & out, ConsoleTree & other);
     friend std::istream & operator >> (std::istream & in, ConsoleTree & other);
+
+private:
+    virtual void printElements(TreeElements * array, int size, std::ostream & out) const;
 };
 
 #endif // CONSOLETREE_H

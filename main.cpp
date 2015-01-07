@@ -2,18 +2,19 @@
 #include <utility>
 #include "binarytree.h"
 #include "consoletree.h"
+#include "prettytree.h"
 
 using namespace std;
 
 int main()
 {
-    ConsoleTree tree = {1, 2, 5, -7, 8};
-
-    cout << tree << "\n";
-    cin >> tree;
-    cout << tree << "\n";
-    tree.remove(2);
-    cout << tree << "\n";
+    ConsoleTree * tree = nullptr;
+    tree = new PrettyTree;
+    for(int i = 0; i < 8; ++i)
+    {
+        cin >> *tree;
+    }
+    cout << *tree;
     return 0;
 }
 

@@ -425,8 +425,66 @@ bool BinaryTree::isEmpty() const
     return pimpl->isEmpty();
 }
 
-void BinaryTree::inorder(std::ostream &out)
+void BinaryTree::getElements(TreeElements *&array, int &size)
 {
-    pimpl->inorder(pimpl->root, pimpl->rightMost(pimpl->root), out);
+    size = 0;
+    array = nullptr;
+    BinaryTree::Implementation::TreeNode * node = pimpl->root;
+    std::stack< BinaryTree::Implementation::TreeNode*> stack;
+    do
+    {
+        while(node != nullptr)
+        {
+            ++size;
+            stack.push(node);
+            node = node->left;
+        }
+        do
+        {
+            BinaryTree::Implementation::TreeNode * top = stack.top();
+            stack.pop();
+            if(top != nullptr && top->right != nullptr)
+            {
+                stack.push(node);
+                node = top->right;
+                break;
+            }
+        }
+        while(!stack.empty());
+    }
+    while(!stack.empty());
+
+
+    node = pimpl->root;
+    int index = 0;
+    array = new TreeElements[size];
+    do
+    {
+        while(node != nullptr)
+        {
+            stack.push(node);
+            node = node->left;
+        }
+        do
+        {
+            BinaryTree::Implementation::TreeNode * top = stack.top();
+            stack.pop();
+            if(top != nullptr)
+            {
+                array[index].value = top->data;
+                array[index].order = (index + 1);
+                ++index;
+            }
+            if(top != nullptr && top->right != nullptr)
+            {
+                stack.push(node);
+                node = top->right;
+                break;
+            }
+        }
+        while(!stack.empty());
+    }
+    while(!stack.empty());
+
 }
 

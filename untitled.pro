@@ -6,12 +6,14 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     binarytree.cpp \
-    consoletree.cpp
+    consoletree.cpp \
+    prettytree.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
 
 HEADERS += \
     binarytree.h \
-    consoletree.h
+    consoletree.h \
+    prettytree.h
 
