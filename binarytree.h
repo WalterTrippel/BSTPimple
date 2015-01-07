@@ -21,7 +21,7 @@ public:
     BinaryTree(std::initializer_list<int> list);
     BinaryTree(const BinaryTree & other);
     BinaryTree(BinaryTree && other);
-    ~BinaryTree();
+    virtual ~BinaryTree();
 
     BinaryTree & operator = (const BinaryTree & other);
     BinaryTree & operator = (BinaryTree && other);
@@ -31,11 +31,12 @@ public:
     void remove(Data data);
     bool isEmpty() const;
 
-    friend std::ostream & operator << (std::ostream & out, const BinaryTree & other);
-    friend std::istream & operator >> (std::istream & in, const BinaryTree & other);
+protected:
+    virtual void inorder(std::ostream & out);
+
 private:
-    class BinaryTreeImplementation;
-    BinaryTreeImplementation  * pimpl;
+    class Implementation;
+    Implementation  * pimpl;
 };
 
 #endif // BINARYTREE_H

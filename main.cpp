@@ -1,23 +1,19 @@
 #include <iostream>
+#include <utility>
 #include "binarytree.h"
+#include "consoletree.h"
 
 using namespace std;
 
 int main()
 {
-    BinaryTree tree = {1, 2, 5, -7, 8};
+    ConsoleTree tree = {1, 2, 5, -7, 8};
+
+    cout << tree << "\n";
     cin >> tree;
     cout << tree << "\n";
-    tree.remove(5);
+    tree.remove(2);
     cout << tree << "\n";
-    tree.clear();
-    cout << tree << "\n";
-    for(int i = 0; i < 5; ++i)
-    {
-        cin >> tree;
-    }
-    cout << tree << "\n";
-    tree.remove(111);
     return 0;
 }
 

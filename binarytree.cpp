@@ -1,38 +1,22 @@
 #include "binarytree.h"
 
-class BinaryTree::BinaryTreeImplementation
+class BinaryTree::Implementation
 {
 public:
-    BinaryTreeImplementation();
-    BinaryTreeImplementation(std::initializer_list<int> list);
-    BinaryTreeImplementation(const BinaryTreeImplementation & other);
-    BinaryTreeImplementation(BinaryTreeImplementation && other);
-    ~BinaryTreeImplementation();
+    Implementation();
+    Implementation(std::initializer_list<int> list);
+    Implementation(const Implementation & other);
+    Implementation(Implementation && other);
+    ~Implementation();
 
-    BinaryTreeImplementation & operator = (const BinaryTreeImplementation & other);
-    BinaryTreeImplementation & operator = (BinaryTreeImplementation && other);
+    Implementation & operator = (const Implementation & other);
+    Implementation & operator = (Implementation && other);
 
     void clear();
     void push(Data data);
     void remove(Data data);
     bool isEmpty() const;
 
-    friend std::ostream & operator << (std::ostream & out, BinaryTreeImplementation & other)
-    {
-        BinaryTreeImplementation::TreeNode * node  = other.rightMost(other.root);
-        other.inorder(other.root, node, out);
-        return out;
-    }
-
-    friend std::istream & operator >> (std::istream & in, BinaryTreeImplementation & other)
-    {
-        Data data;
-        in >> data;
-        other.push(data);
-        return in;
-    }
-
-private:
     struct TreeNode
     {
         TreeNode();
@@ -60,23 +44,23 @@ private:
 /**
  * TreeNode implementation
 */
-BinaryTree::BinaryTreeImplementation::TreeNode::TreeNode():left(nullptr), right(nullptr), data(0) {}
+BinaryTree::Implementation::TreeNode::TreeNode():left(nullptr), right(nullptr), data(0) {}
 
-BinaryTree::BinaryTreeImplementation::TreeNode::TreeNode(Data data):left(nullptr), right(nullptr), data(data) {}
+BinaryTree::Implementation::TreeNode::TreeNode(Data data):left(nullptr), right(nullptr), data(data) {}
 
-BinaryTree::BinaryTreeImplementation::TreeNode::TreeNode(TreeNode &&other):left(nullptr), right(nullptr), data(other.data)
+BinaryTree::Implementation::TreeNode::TreeNode(TreeNode &&other):left(nullptr), right(nullptr), data(other.data)
 {
     std::swap(left, other.left);
     std::swap(right, other.right);
 }
 
-BinaryTree::BinaryTreeImplementation::TreeNode::~TreeNode()
+BinaryTree::Implementation::TreeNode::~TreeNode()
 {
     left = nullptr;
     right = nullptr;
 }
 
-BinaryTree::BinaryTreeImplementation::TreeNode & BinaryTree::BinaryTreeImplementation::TreeNode::operator = (BinaryTree::BinaryTreeImplementation::TreeNode && other)
+BinaryTree::Implementation::TreeNode & BinaryTree::Implementation::TreeNode::operator = (BinaryTree::Implementation::TreeNode && other)
 {
     left = nullptr;
     right = nullptr;
@@ -88,7 +72,7 @@ BinaryTree::BinaryTreeImplementation::TreeNode & BinaryTree::BinaryTreeImplement
     return * this;
 }
 
-void BinaryTree::BinaryTreeImplementation::TreeNode::push(Data data)
+void BinaryTree::Implementation::TreeNode::push(Data data)
 {
     if(data < this->data)
     {
@@ -118,9 +102,9 @@ void BinaryTree::BinaryTreeImplementation::TreeNode::push(Data data)
  *
  * BinaryTreeImplementation implementation
 */
-BinaryTree::BinaryTreeImplementation::BinaryTreeImplementation():root(nullptr) {}
+BinaryTree::Implementation::Implementation():root(nullptr) {}
 
-BinaryTree::BinaryTreeImplementation::BinaryTreeImplementation(std::initializer_list<int> list):root(nullptr)
+BinaryTree::Implementation::Implementation(std::initializer_list<int> list):root(nullptr)
 {
     for(unsigned i = 0; i < list.size(); ++i)
     {
@@ -128,22 +112,22 @@ BinaryTree::BinaryTreeImplementation::BinaryTreeImplementation(std::initializer_
     }
 }
 
-BinaryTree::BinaryTreeImplementation::BinaryTreeImplementation(const BinaryTreeImplementation &other):root(nullptr)
+BinaryTree::Implementation::Implementation(const Implementation &other):root(nullptr)
 {
     copy(root, other.root);
 }
 
-BinaryTree::BinaryTreeImplementation::BinaryTreeImplementation(BinaryTreeImplementation &&other):root(nullptr)
+BinaryTree::Implementation::Implementation(Implementation &&other):root(nullptr)
 {
     swap(root, other.root);
 }
 
-BinaryTree::BinaryTreeImplementation::~BinaryTreeImplementation()
+BinaryTree::Implementation::~Implementation()
 {
     clear();
 }
 
-BinaryTree::BinaryTreeImplementation & BinaryTree::BinaryTreeImplementation::operator = (const BinaryTree::BinaryTreeImplementation & other)
+BinaryTree::Implementation & BinaryTree::Implementation::operator = (const BinaryTree::Implementation & other)
 {
     if(this != &other)
     {
@@ -152,13 +136,13 @@ BinaryTree::BinaryTreeImplementation & BinaryTree::BinaryTreeImplementation::ope
     return * this;
 }
 
-BinaryTree::BinaryTreeImplementation & BinaryTree::BinaryTreeImplementation::operator = (BinaryTree::BinaryTreeImplementation && other)
+BinaryTree::Implementation & BinaryTree::Implementation::operator = (BinaryTree::Implementation && other)
 {
     swap(root, other.root);
     return * this;
 }
 
-void BinaryTree::BinaryTreeImplementation::swap(TreeNode *&rvalue, TreeNode *lvalue)
+void BinaryTree::Implementation::swap(TreeNode *&rvalue, TreeNode *lvalue)
 {
     if(lvalue == nullptr)
     {
@@ -172,12 +156,12 @@ void BinaryTree::BinaryTreeImplementation::swap(TreeNode *&rvalue, TreeNode *lva
     }
 }
 
-void BinaryTree::BinaryTreeImplementation::clear()
+void BinaryTree::Implementation::clear()
 {
     clear(root);
 }
 
-void BinaryTree::BinaryTreeImplementation::clear(TreeNode *&root)
+void BinaryTree::Implementation::clear(TreeNode *&root)
 {
     if(root != nullptr)
     {
@@ -188,7 +172,7 @@ void BinaryTree::BinaryTreeImplementation::clear(TreeNode *&root)
     }
 }
 
-void BinaryTree::BinaryTreeImplementation::copy(TreeNode *&copiedNode, TreeNode *otherNode)
+void BinaryTree::Implementation::copy(TreeNode *&copiedNode, TreeNode *otherNode)
 {
     if(otherNode == nullptr)
     {
@@ -202,7 +186,7 @@ void BinaryTree::BinaryTreeImplementation::copy(TreeNode *&copiedNode, TreeNode 
     }
 }
 
-BinaryTree::BinaryTreeImplementation::TreeNode * BinaryTree::BinaryTreeImplementation::rightMost(TreeNode *node) const
+BinaryTree::Implementation::TreeNode * BinaryTree::Implementation::rightMost(TreeNode *node) const
 {
     if(node != nullptr && node->right != nullptr)
     {
@@ -211,7 +195,7 @@ BinaryTree::BinaryTreeImplementation::TreeNode * BinaryTree::BinaryTreeImplement
     return node;
 }
 
-BinaryTree::BinaryTreeImplementation::TreeNode * BinaryTree::BinaryTreeImplementation::findMin(TreeNode *node) const
+BinaryTree::Implementation::TreeNode * BinaryTree::Implementation::findMin(TreeNode *node) const
 {
     if(node == nullptr)
     {
@@ -224,7 +208,7 @@ BinaryTree::BinaryTreeImplementation::TreeNode * BinaryTree::BinaryTreeImplement
     return findMin(node->left);
 }
 
-void BinaryTree::BinaryTreeImplementation::push(Data data)
+void BinaryTree::Implementation::push(Data data)
 {
     if(root == nullptr)
     {
@@ -236,7 +220,7 @@ void BinaryTree::BinaryTreeImplementation::push(Data data)
     }
 }
 
-void BinaryTree::BinaryTreeImplementation::remove(Data data)
+void BinaryTree::Implementation::remove(Data data)
 {
     bool found = false;
     if(isEmpty())
@@ -354,12 +338,12 @@ void BinaryTree::BinaryTreeImplementation::remove(Data data)
     }
 }
 
-bool BinaryTree::BinaryTreeImplementation::isEmpty() const
+bool BinaryTree::Implementation::isEmpty() const
 {
-    return root == nullptr ? true : false;
+    return root == nullptr;
 }
 
-void BinaryTree::BinaryTreeImplementation::inorder(TreeNode *node, TreeNode *rightMost, std::ostream &out)
+void BinaryTree::Implementation::inorder(TreeNode *node, TreeNode *rightMost, std::ostream &out)
 {
     if(node == nullptr)
     {
@@ -386,17 +370,17 @@ void BinaryTree::BinaryTreeImplementation::inorder(TreeNode *node, TreeNode *rig
 */
 BinaryTree::BinaryTree():pimpl(nullptr)
 {
-    pimpl = new BinaryTreeImplementation;
+    pimpl = new Implementation;
 }
 
 BinaryTree::BinaryTree(std::initializer_list<int> list):pimpl(nullptr)
 {
-    pimpl = new BinaryTreeImplementation(list);
+    pimpl = new Implementation(list);
 }
 
 BinaryTree::BinaryTree(const BinaryTree &other):pimpl(nullptr)
 {
-    pimpl = new BinaryTreeImplementation(*other.pimpl);
+    pimpl = new Implementation(*other.pimpl);
 }
 
 BinaryTree::BinaryTree(BinaryTree &&other):pimpl(nullptr)
@@ -441,14 +425,8 @@ bool BinaryTree::isEmpty() const
     return pimpl->isEmpty();
 }
 
-std::ostream & operator << (std::ostream & out, const BinaryTree & other)
+void BinaryTree::inorder(std::ostream &out)
 {
-    out << *other.pimpl;
-    return out;
+    pimpl->inorder(pimpl->root, pimpl->rightMost(pimpl->root), out);
 }
 
-std::istream & operator >> (std::istream & in, const BinaryTree & other)
-{
-    in >> *other.pimpl;
-    return in;
-}
