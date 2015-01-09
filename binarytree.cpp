@@ -38,6 +38,7 @@ public:
     void inorder(TreeNode * node, TreeNode * rightMost, std::ostream & out);
     TreeNode * rightMost(TreeNode * node) const;
     TreeNode * findMin(TreeNode * node) const;
+    void getElements(TreeElements *& array, int &size) const;
 };
 
 
@@ -364,6 +365,68 @@ void BinaryTree::Implementation::inorder(TreeNode *node, TreeNode *rightMost, st
     }
 }
 
+void BinaryTree::Implementation::getElements(TreeElements *&array, int &size) const
+{
+    size = 0;
+    array = nullptr;
+    Implementation::TreeNode * node = root;
+    std::stack< Implementation::TreeNode*> stack;
+    do
+    {
+        while(node != nullptr)
+        {
+            ++size;
+            stack.push(node);
+            node = node->left;
+        }
+        do
+        {
+            Implementation::TreeNode * top = stack.top();
+            stack.pop();
+            if(top != nullptr && top->right != nullptr)
+            {
+                stack.push(node);
+                node = top->right;
+                break;
+            }
+        }
+        while(!stack.empty());
+    }
+    while(!stack.empty());
+
+
+    node = root;
+    int index = 0;
+    array = new TreeElements[size];
+    do
+    {
+        while(node != nullptr)
+        {
+            stack.push(node);
+            node = node->left;
+        }
+        do
+        {
+            Implementation::TreeNode * top = stack.top();
+            stack.pop();
+            if(top != nullptr)
+            {
+                array[index].value = top->data;
+                array[index].order = (index + 1);
+                ++index;
+            }
+            if(top != nullptr && top->right != nullptr)
+            {
+                stack.push(node);
+                node = top->right;
+                break;
+            }
+        }
+        while(!stack.empty());
+    }
+    while(!stack.empty());
+}
+
 /**
  *
  * BinaryTree itself implementation
@@ -401,7 +464,7 @@ BinaryTree & BinaryTree::operator = (const BinaryTree & other)
 
 BinaryTree & BinaryTree::operator = (BinaryTree && other)
 {
-    pimpl = std::move(other.pimpl);
+    *pimpl = std::move(*other.pimpl);
     return * this;
 }
 
@@ -427,64 +490,5 @@ bool BinaryTree::isEmpty() const
 
 void BinaryTree::getElements(TreeElements *&array, int &size)
 {
-    size = 0;
-    array = nullptr;
-    BinaryTree::Implementation::TreeNode * node = pimpl->root;
-    std::stack< BinaryTree::Implementation::TreeNode*> stack;
-    do
-    {
-        while(node != nullptr)
-        {
-            ++size;
-            stack.push(node);
-            node = node->left;
-        }
-        do
-        {
-            BinaryTree::Implementation::TreeNode * top = stack.top();
-            stack.pop();
-            if(top != nullptr && top->right != nullptr)
-            {
-                stack.push(node);
-                node = top->right;
-                break;
-            }
-        }
-        while(!stack.empty());
-    }
-    while(!stack.empty());
-
-
-    node = pimpl->root;
-    int index = 0;
-    array = new TreeElements[size];
-    do
-    {
-        while(node != nullptr)
-        {
-            stack.push(node);
-            node = node->left;
-        }
-        do
-        {
-            BinaryTree::Implementation::TreeNode * top = stack.top();
-            stack.pop();
-            if(top != nullptr)
-            {
-                array[index].value = top->data;
-                array[index].order = (index + 1);
-                ++index;
-            }
-            if(top != nullptr && top->right != nullptr)
-            {
-                stack.push(node);
-                node = top->right;
-                break;
-            }
-        }
-        while(!stack.empty());
-    }
-    while(!stack.empty());
-
+    pimpl->getElements(array, size);
 }
-
